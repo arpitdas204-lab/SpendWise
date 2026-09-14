@@ -125,6 +125,14 @@ public class TransactionAdapter
         }
 
 
+        // Edit button
+        holder.editButton.setOnClickListener(v -> {
+
+            editListener.onEdit(transaction);
+
+        });
+
+
         // Delete button
         holder.deleteButton.setOnClickListener(v -> {
 
@@ -133,7 +141,7 @@ public class TransactionAdapter
         });
 
 
-        // Tap transaction to edit
+        // Tapping the transaction also edits it
         holder.itemView.setOnClickListener(v -> {
 
             editListener.onEdit(transaction);
@@ -161,6 +169,7 @@ public class TransactionAdapter
         TextView time;
         TextView amount;
 
+        Button editButton;
         Button deleteButton;
 
 
@@ -192,6 +201,10 @@ public class TransactionAdapter
 
             amount = itemView.findViewById(
                     R.id.tvAmount
+            );
+
+            editButton = itemView.findViewById(
+                    R.id.btnEdit
             );
 
             deleteButton = itemView.findViewById(

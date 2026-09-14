@@ -3,10 +3,12 @@ package com.example.speedwise;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -20,14 +22,12 @@ public class AddTransactionActivity extends AppCompatActivity {
 
     private String transactionDate;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_add_transaction);
-
 
         EditText amount =
                 findViewById(R.id.etAmount);
@@ -38,11 +38,20 @@ public class AddTransactionActivity extends AppCompatActivity {
         RadioButton income =
                 findViewById(R.id.rbIncome);
 
+        RadioButton expense =
+                findViewById(R.id.rbExpense);
+
+        RadioGroup transactionTypeGroup =
+                findViewById(R.id.transactionTypeGroup);
+
         Spinner categorySpinner =
                 findViewById(R.id.spCategory);
 
         Button dateButton =
                 findViewById(R.id.btnDate);
+
+        Button saveButton =
+                findViewById(R.id.btnSaveTransaction);
 
 
         // --------------------------------------------------
@@ -65,11 +74,15 @@ public class AddTransactionActivity extends AppCompatActivity {
                         categories
                 );
 
+
         categoryAdapter.setDropDownViewResource(
                 android.R.layout.simple_spinner_dropdown_item
         );
 
-        categorySpinner.setAdapter(categoryAdapter);
+
+        categorySpinner.setAdapter(
+                categoryAdapter
+        );
 
 
         // --------------------------------------------------
@@ -96,16 +109,19 @@ public class AddTransactionActivity extends AppCompatActivity {
             String existingType =
                     getIntent().getStringExtra("type");
 
+
             double existingAmount =
                     getIntent().getDoubleExtra(
                             "amount",
                             0
                     );
 
+
             String existingDescription =
                     getIntent().getStringExtra(
                             "description"
                     );
+
 
             String existingCategory =
                     getIntent().getStringExtra(
@@ -123,26 +139,41 @@ public class AddTransactionActivity extends AppCompatActivity {
             );
 
 
+            // Set transaction type
+
             if ("Income".equals(existingType)) {
 
                 income.setChecked(true);
 
+                categorySpinner.setVisibility(
+                        View.GONE
+                );
+
             } else {
 
-                income.setChecked(false);
+                expense.setChecked(true);
+
+                categorySpinner.setVisibility(
+                        View.VISIBLE
+                );
             }
 
 
-            for (int i = 0;
-                 i < categories.length;
-                 i++) {
+            // Set existing category
 
-                if (categories[i].equals(
-                        existingCategory)) {
+            if (existingCategory != null) {
 
-                    categorySpinner.setSelection(i);
+                for (int i = 0;
+                     i < categories.length;
+                     i++) {
 
-                    break;
+                    if (categories[i].equals(
+                            existingCategory)) {
+
+                        categorySpinner.setSelection(i);
+
+                        break;
+                    }
                 }
             }
 
@@ -157,10 +188,47 @@ public class AddTransactionActivity extends AppCompatActivity {
                     ).format(
                             Calendar.getInstance().getTime()
                     );
+
+            // Default = Expense
+
+            expense.setChecked(true);
+
+            categorySpinner.setVisibility(
+                    View.VISIBLE
+            );
         }
 
 
-        // Show current transaction date
+        // --------------------------------------------------
+        // TRANSACTION TYPE CHANGE
+        // --------------------------------------------------
+
+        transactionTypeGroup.setOnCheckedChangeListener(
+                (group, checkedId) -> {
+
+                    if (checkedId == R.id.rbIncome) {
+
+                        // Income does not need a category
+
+                        categorySpinner.setVisibility(
+                                View.GONE
+                        );
+
+                    } else if (checkedId == R.id.rbExpense) {
+
+                        // Expense needs a category
+
+                        categorySpinner.setVisibility(
+                                View.VISIBLE
+                        );
+                    }
+                }
+        );
+
+
+        // --------------------------------------------------
+        // SHOW CURRENT DATE
+        // --------------------------------------------------
 
         dateButton.setText(
                 transactionDate
@@ -187,10 +255,12 @@ public class AddTransactionActivity extends AppCompatActivity {
                                     Locale.getDefault()
                             );
 
+
                     java.util.Date selectedDate =
                             dateFormat.parse(
                                     transactionDate
                             );
+
 
                     if (selectedDate != null) {
 
@@ -250,18 +320,13 @@ public class AddTransactionActivity extends AppCompatActivity {
         // SAVE BUTTON
         // --------------------------------------------------
 
-        Button saveButton =
-                findViewById(
-                        R.id.btnSaveTransaction
-                );
-
-
         saveButton.setOnClickListener(v -> {
 
             String amountText =
                     amount.getText()
                             .toString()
                             .trim();
+
 
             String descriptionText =
                     description.getText()
@@ -294,7 +359,9 @@ public class AddTransactionActivity extends AppCompatActivity {
             try {
 
                 amountValue =
-                        Double.parseDouble(amountText);
+                        Double.parseDouble(
+                                amountText
+                        );
 
             } catch (NumberFormatException e) {
 
@@ -360,10 +427,21 @@ public class AddTransactionActivity extends AppCompatActivity {
             // GET CATEGORY
             // --------------------------------------------------
 
-            String category =
-                    categorySpinner
-                            .getSelectedItem()
-                            .toString();
+            String category;
+
+            if ("Income".equals(type)) {
+
+                // Income does not have a category
+
+                category = "N/A";
+
+            } else {
+
+                category =
+                        categorySpinner
+                                .getSelectedItem()
+                                .toString();
+            }
 
 
             // --------------------------------------------------

@@ -1,118 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="20dp">
+
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="35dp"
+    android:paddingBottom="20dp">
 
     <!-- App Title -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="SpendWise"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="20dp" />
-
-    <!-- Balance -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Current Balance"
-        android:textSize="16sp"
-        android:gravity="center" />
-
-    <TextView
-        android:id="@+id/tvBalance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="₹0.00"
         android:textSize="30sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginBottom="20dp" />
+        android:layout_marginBottom="4dp" />
+
+    <!-- Subtitle -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Track your money. Spend smarter."
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Dark Mode -->
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/switchTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Dark Mode"
+        android:textSize="14sp"
+        android:layout_marginBottom="16dp"
+        app:useMaterialThemeColors="true" />
+
+    <!-- Current Balance -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp"
+        android:layout_marginBottom="14dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Current Balance"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="₹0.00"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+    </LinearLayout>
 
     <!-- Income and Expenses -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="2">
+        android:weightSum="2"
+        android:layout_marginBottom="10dp">
 
-        <!-- Income -->
+        <!-- Income Card -->
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="14dp"
+            android:layout_marginEnd="6dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Income"
-                android:textSize="16sp" />
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginBottom="4dp" />
 
             <TextView
                 android:id="@+id/tvIncome"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="₹0.00"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:singleLine="true" />
 
         </LinearLayout>
 
-        <!-- Expenses -->
+        <!-- Expenses Card -->
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="14dp"
+            android:layout_marginStart="6dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Expenses"
-                android:textSize="16sp" />
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginBottom="4dp" />
 
             <TextView
                 android:id="@+id/tvExpenses"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="₹0.00"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="19sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:singleLine="true" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <!-- Transaction List -->
+    <!-- Transaction Heading -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Transactions"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="8dp" />
+
+    <!-- Transaction List -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerTransactions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
 
     <!-- Add Transaction Button -->
+
     <Button
         android:id="@+id/btnAddTransaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="+ Add Transaction"
-        android:layout_marginTop="15dp" />
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        android:minHeight="52dp" />
 
 </LinearLayout>

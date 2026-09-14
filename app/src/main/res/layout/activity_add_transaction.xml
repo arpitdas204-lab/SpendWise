@@ -7,18 +7,22 @@
     android:layout_height="match_parent"
 
     android:orientation="vertical"
-    android:padding="24dp">
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:paddingTop="35dp"
+    android:paddingBottom="24dp">
 
 
     <!-- Title -->
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:text="Add Transaction"
         android:textSize="26sp"
         android:textStyle="bold"
+        android:gravity="center"
 
         android:layout_marginBottom="24dp"/>
 
@@ -48,6 +52,43 @@
         android:hint="Description"
 
         android:layout_marginBottom="16dp"/>
+
+
+    <!-- Transaction Type -->
+
+    <RadioGroup
+        android:id="@+id/transactionTypeGroup"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="horizontal"
+
+        android:layout_marginBottom="16dp">
+
+
+        <RadioButton
+            android:id="@+id/rbIncome"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Income"/>
+
+
+        <RadioButton
+            android:id="@+id/rbExpense"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Expense"
+
+            android:checked="true"
+
+            android:layout_marginStart="24dp"/>
+
+    </RadioGroup>
 
 
     <!-- Category -->
@@ -82,41 +123,6 @@
         android:textAllCaps="false"
 
         android:layout_marginBottom="16dp"/>
-
-
-    <!-- Transaction Type -->
-
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:orientation="horizontal"
-
-        android:layout_marginBottom="24dp">
-
-
-        <RadioButton
-            android:id="@+id/rbIncome"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="Income"/>
-
-
-        <RadioButton
-            android:id="@+id/rbExpense"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="Expense"
-
-            android:checked="true"
-
-            android:layout_marginStart="24dp"/>
-
-    </RadioGroup>
 
 
     <!-- Save -->

@@ -7,8 +7,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.switchmaterial.SwitchMaterial;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvBalance;
     TextView tvIncome;
     TextView tvExpenses;
+
+    SwitchMaterial switchTheme;
 
     double totalIncome = 0;
     double totalExpenses = 0;
@@ -45,10 +50,46 @@ public class MainActivity extends AppCompatActivity {
         tvIncome = findViewById(R.id.tvIncome);
         tvExpenses = findViewById(R.id.tvExpenses);
 
+        switchTheme = findViewById(R.id.switchTheme);
+
         recyclerTransactions =
                 findViewById(R.id.recyclerTransactions);
 
         storage = new TransactionStorage(this);
+
+
+        // ---------------------------------------------
+        // DARK MODE SWITCH
+        // ---------------------------------------------
+
+        if (AppCompatDelegate.getDefaultNightMode()
+                == AppCompatDelegate.MODE_NIGHT_YES) {
+
+            switchTheme.setChecked(true);
+
+        } else {
+
+            switchTheme.setChecked(false);
+        }
+
+
+        switchTheme.setOnCheckedChangeListener(
+                (buttonView, isChecked) -> {
+
+                    if (isChecked) {
+
+                        AppCompatDelegate.setDefaultNightMode(
+                                AppCompatDelegate.MODE_NIGHT_YES
+                        );
+
+                    } else {
+
+                        AppCompatDelegate.setDefaultNightMode(
+                                AppCompatDelegate.MODE_NIGHT_NO
+                        );
+                    }
+                }
+        );
 
 
         // Load transactions
