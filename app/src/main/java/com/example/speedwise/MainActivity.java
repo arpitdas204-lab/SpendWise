@@ -2,6 +2,7 @@ package com.example.speedwise;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -37,9 +38,40 @@ public class MainActivity extends AppCompatActivity {
 
     Transaction transactionBeingEdited;
 
+    SharedPreferences themePreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // ---------------------------------------------
+        // LOAD SAVED THEME BEFORE CREATING THE SCREEN
+        // ---------------------------------------------
+
+        themePreferences = getSharedPreferences(
+                "ThemePrefs",
+                MODE_PRIVATE
+        );
+
+        boolean isDarkMode =
+                themePreferences.getBoolean(
+                        "darkMode",
+                        false
+                );
+
+        if (isDarkMode) {
+
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES
+            );
+
+        } else {
+
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO
+            );
+        }
+
 
         super.onCreate(savedInstanceState);
 
@@ -62,19 +94,21 @@ public class MainActivity extends AppCompatActivity {
         // DARK MODE SWITCH
         // ---------------------------------------------
 
-        if (AppCompatDelegate.getDefaultNightMode()
-                == AppCompatDelegate.MODE_NIGHT_YES) {
-
-            switchTheme.setChecked(true);
-
-        } else {
-
-            switchTheme.setChecked(false);
-        }
+        // Set switch according to saved preference
+        switchTheme.setChecked(isDarkMode);
 
 
         switchTheme.setOnCheckedChangeListener(
                 (buttonView, isChecked) -> {
+
+                    // Save user's choice
+                    themePreferences.edit()
+                            .putBoolean(
+                                    "darkMode",
+                                    isChecked
+                            )
+                            .apply();
+
 
                     if (isChecked) {
 
@@ -177,7 +211,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerTransactions.setAdapter(adapter);
 
 
-        // Add Transaction button
+        // ---------------------------------------------
+        // ADD TRANSACTION BUTTON
+        // ---------------------------------------------
+
         Button addTransactionButton =
                 findViewById(R.id.btnAddTransaction);
 
